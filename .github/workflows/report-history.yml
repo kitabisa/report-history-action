@@ -1,0 +1,34 @@
+name: report-history
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-report:
+    name: Generate Report
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Get history
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Report History Action
+        uses: kitabisa/dukun@master
+        with:
+          subfolder: report
+          keep_reports: 2
+          report_folder: report
+          gh_pages: gh-pages
+          report_history: report-history
+
+      - name: Deploy Report to Github Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./report-history

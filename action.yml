@@ -1,0 +1,78 @@
+name: 'Report History'
+description: 'Generate report history for automation'
+inputs:
+  report_folder:
+    description: 'Test report data dir'
+    required: true
+  allure_report:
+    description: 'Allure report target dir'
+    required: true
+    default: 'allure-report'
+  gh_pages:
+    description: 'Folder with gh-pages branch'
+    required: true
+    default: 'gh-pages'
+  report_history:
+    description: 'Folder for report history'
+    required: true
+    default: 'report-history'
+  subfolder:
+    description: 'subfolder'
+    required: false
+    default: ''
+  keep_reports:
+    description: 'Keep X last reports'
+    required: false
+    default: '5'
+  github_repo:
+    description: 'GitHub repository'
+    required: true
+    default: ${{ github.repository }}
+  github_repo_owner:
+    description: 'GitHub repository owner'
+    required: true
+    default: ${{ github.repository_owner }}
+  github_run_num:
+    description: 'GitHub Actions build number'
+    required: true
+    default: ${{ github.run_number }}
+
+runs:
+  using: 'composite'
+  steps:
+    # - name: Setup Java 17
+    #   uses: actions/setup-java@v4
+    #   with:
+    #     distribution: 'temurin'
+    #     java-version: '17'
+
+    - name: Install Allure CLI
+      run: |
+        npm install -g allure-commandline
+        allure --version
+      shell: bash
+
+    - name: Get Report History
+      uses: actions/checkout@v4
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Set Generate Report History
+      run: chmod +x $GITHUB_ACTION_PATH/generate.sh
+      shell: bash
+
+    - name: Generate Report History
+      env:
+        INPUT_REPORT_FOLDER: ${{ inputs.report_folder }}
+        INPUT_ALLURE_REPORT: ${{ inputs.allure_report }}
+        INPUT_GH_PAGES: ${{ inputs.gh_pages }}
+        INPUT_REPORT_HISTORY: ${{ inputs.report_history }}
+        INPUT_SUBFOLDER: ${{ inputs.subfolder }}
+        INPUT_KEEP_REPORTS: ${{ inputs.keep_reports }}
+        INPUT_GITHUB_REPO: ${{ inputs.github_repo }}
+        INPUT_GITHUB_REPO_OWNER: ${{ inputs.github_repo_owner }}
+        INPUT_GITHUB_RUN_NUM: ${{ inputs.github_run_num }}
+      run: $GITHUB_ACTION_PATH/generate.sh
+      shell: bash
