@@ -40,13 +40,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    # - name: Setup Java 17
-    #   uses: actions/setup-java@v4
-    #   with:
-    #     distribution: 'temurin'
-    #     java-version: '17'
+    - name: Setup Java 21
+      if: "${{ inputs.report_folder == 'allure-results' }}"
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
 
     - name: Install Allure CLI
+      if: "${{ inputs.report_folder == 'allure-results' }}"
       run: |
         npm install -g allure-commandline
         allure --version

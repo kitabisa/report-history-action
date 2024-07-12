@@ -19,7 +19,7 @@ jobs:
           path: gh-pages
 
       - name: Report History Action
-        uses: kitabisa/dukun@master
+        uses: kitabisa/report-history-action@master
         with:
           subfolder: report
           keep_reports: 2
