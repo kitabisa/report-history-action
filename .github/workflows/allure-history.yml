@@ -1,4 +1,4 @@
-name: report-history
+name: allure-history
 
 on:
   workflow_dispatch:
