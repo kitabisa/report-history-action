@@ -26,7 +26,7 @@ fi
 
 # Removing the folder with the smallest number
 COUNT=$( (ls ./${INPUT_REPORT_HISTORY} | wc -l))
-echo "Count folders in report-history: ${COUNT}"
+echo "Count folders in ${INPUT_REPORT_HISTORY}: ${COUNT}"
 
 # Determine which folders to keep based on INPUT_KEEP_REPORTS
 echo "Keep reports count ${INPUT_KEEP_REPORTS}"
@@ -38,9 +38,18 @@ if [[ "${INPUT_REPORT_FOLDER}" == *"allure-results"* ]]; then
   if ((COUNT > INPUT_KEEP_REPORTS)); then
     cd ./${INPUT_REPORT_HISTORY}
     echo "Remove index.html last-history"
-    rm index.html last-history -rv
-    echo "Remove old reports"
-    ls | sort -n | head -n -$((${INPUT_KEEP_REPORTS}-2)) | xargs rm -rv;
+    rm -rv index.html last-history
+    # Calculate the number of files to delete
+    num_files_to_keep=$((${INPUT_KEEP_REPORTS} - 2))
+    num_files=$(ls | wc -l)
+    num_files_to_delete=$(($num_files - $num_files_to_keep))
+    # Check if there are any files to delete
+    if [ "$num_files_to_delete" -gt 0 ]; then
+      echo "Remove old reports"
+      ls | sort -n | head -n "$num_files_to_delete" | xargs rm -rv
+    else
+      echo "No files to delete."
+    fi
     cd ${GITHUB_WORKSPACE}
   fi
 
