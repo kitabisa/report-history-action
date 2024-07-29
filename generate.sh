@@ -33,28 +33,28 @@ echo "Keep reports count ${INPUT_KEEP_REPORTS}"
 echo "Removing the folder with the smallest number..."
 
 if [[ "${INPUT_REPORT_FOLDER}" == *"allure-results"* ]]; then
-  INPUT_KEEP_REPORTS=$((INPUT_KEEP_REPORTS + 1))
-  echo "If ${COUNT} == ${INPUT_KEEP_REPORTS}"
+  INPUT_KEEP_REPORTS=$((INPUT_KEEP_REPORTS+1))
+  echo "If ${COUNT} > ${INPUT_KEEP_REPORTS}"
   if ((COUNT > INPUT_KEEP_REPORTS)); then
     cd ./${INPUT_REPORT_HISTORY}
-    echo "remove index.html last-history"
+    echo "Remove index.html last-history"
     rm index.html last-history -rv
-    echo "remove old reports"
-    ls | sort -n | grep -v 'CNAME' | head -n -$((${INPUT_KEEP_REPORTS} - 2)) | xargs rm -rv
+    echo "Remove old reports"
+    ls | sort -n | head -n -$((${INPUT_KEEP_REPORTS}-2)) | xargs rm -rv;
     cd ${GITHUB_WORKSPACE}
   fi
 
   #echo "index.html"
   echo "<!DOCTYPE html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; URL=${GITHUB_PAGES_WEBSITE_URL}/${INPUT_GITHUB_RUN_NUM}/index.html\">" >./${INPUT_REPORT_HISTORY}/index.html # path
-  echo "<meta http-equiv=\"Pragma\" content=\"no-cache\"><meta http-equiv=\"Expires\" content=\"0\">" >>./${INPUT_REPORT_HISTORY}/index.html
+  echo "<meta http-equiv=\"Pragma\" content=\"no-cache\"><meta http-equiv=\"Expires\" content=\"0\">" >> ./${INPUT_REPORT_HISTORY}/index.html
   #cat ./${INPUT_REPORT_HISTORY}/index.html
 
   #echo "executor.json"
-  echo '{"name":"GitHub Actions","type":"github","reportName":"Allure Report with history",' >executor.json
-  echo "\"url\":\"${GITHUB_PAGES_WEBSITE_URL}\"," >>executor.json # ???
-  echo "\"reportUrl\":\"${GITHUB_PAGES_WEBSITE_URL}/${INPUT_GITHUB_RUN_NUM}/\"," >>executor.json
-  echo "\"buildUrl\":\"${INPUT_GITHUB_SERVER_URL}/${INPUT_GITHUB_REPO}/actions/runs/${INPUT_GITHUB_RUN_ID}\"," >>executor.json
-  echo "\"buildName\":\"GitHub Actions Run #${INPUT_GITHUB_RUN_ID}\",\"buildOrder\":\"${INPUT_GITHUB_RUN_NUM}\"}" >>executor.json
+  echo '{"name":"GitHub Actions","type":"github","reportName":"Allure Report with history",' > executor.json
+  echo "\"url\":\"${GITHUB_PAGES_WEBSITE_URL}\"," >> executor.json # ???
+  echo "\"reportUrl\":\"${GITHUB_PAGES_WEBSITE_URL}/${INPUT_GITHUB_RUN_NUM}/\"," >> executor.json
+  echo "\"buildUrl\":\"${INPUT_GITHUB_SERVER_URL}/${INPUT_GITHUB_REPO}/actions/runs/${INPUT_GITHUB_RUN_ID}\"," >> executor.json
+  echo "\"buildName\":\"GitHub Actions Run #${INPUT_GITHUB_RUN_ID}\",\"buildOrder\":\"${INPUT_GITHUB_RUN_NUM}\"}" >> executor.json
   #cat executor.json
   mv ./executor.json ./${INPUT_REPORT_FOLDER}
 

@@ -6,7 +6,7 @@ on:
 jobs:
   generate-report:
     name: Generate Report
-    runs-on: ktbs-sdet-macmini-runner
+    runs-on: macos-latest
     steps:
 
       - uses: actions/checkout@v4
