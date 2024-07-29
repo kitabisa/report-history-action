@@ -1,4 +1,4 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
 "passed","Fri Jul 12 09:07:01 UTC 2024","Fri Jul 12 09:07:02 UTC 2024","349","","Report history action","","","","Test 2",""
-"passed","Fri Jul 12 09:07:02 UTC 2024","Fri Jul 12 09:07:02 UTC 2024","587","","Report history action","","","","Test 3",""
 "passed","Fri Jul 12 09:07:00 UTC 2024","Fri Jul 12 09:07:01 UTC 2024","1566","","Report history action","","","","Test 1",""
+"passed","Fri Jul 12 09:07:02 UTC 2024","Fri Jul 12 09:07:02 UTC 2024","587","","Report history action","","","","Test 3",""
