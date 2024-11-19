@@ -50,7 +50,7 @@ runs:
     - name: Install Allure CLI
       if: contains(inputs.report_folder, 'allure-results')
       run: |-
-        npm install -g allure-commandline
+        sudo npm install -g allure-commandline
         allure --version
       shell: bash
 
