@@ -48,9 +48,10 @@ runs:
         java-version: '21'
 
     - name: Install Allure CLI
-      if: contains(inputs.report_folder, 'allure-results')
+      env:
+        NPM_CMD: ${{ runner.os == 'Linux' && 'sudo npm' || 'npm' }}
       run: |-
-        sudo npm install -g allure-commandline
+        $NPM_CMD install -g allure-commandline
         allure --version
       shell: bash
 
