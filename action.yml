@@ -54,6 +54,7 @@ runs:
         $NPM_CMD install -g allure-commandline
         allure --version
       shell: bash
+      continue-on-error: true
 
     - name: Get Report History
       uses: actions/checkout@v4
